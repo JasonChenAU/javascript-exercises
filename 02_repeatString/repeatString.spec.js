@@ -1,4 +1,4 @@
-const repeatString = require('./repeatString')
+import repeatString from './repeatString';
 
 describe('repeatString', () => {
   test('repeats the string', () => {
