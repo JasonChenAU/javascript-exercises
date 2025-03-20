@@ -24,6 +24,7 @@ function startGame() {
 
     hScore.textContent = humanScore;
     cScore.textContent = computerScore;
+    results.textContent = '';
 }
 
 const pGame = document.querySelectorAll(".pGame");
@@ -38,13 +39,15 @@ pGame.forEach((item) => {
 
 function playRPS(choice) {
     let computerSelection = getComputerChoice();
-    if ((choice === 'Scissors' && computerSelection === 'rock')|| 
-    (choice === 'Rock' && computerSelection === 'paper') ||
-    (choice === 'Paper' && computerSelection === 'scissors')) {
+    if ((choice === 'Scissors' && computerSelection === 'Rock')|| 
+    (choice === 'Rock' && computerSelection === 'Paper') ||
+    (choice === 'Paper' && computerSelection === 'Scissors')) {
     computerScore++;
     cScore.textContent = computerScore;
     results.textContent = `You lose! ${computerSelection} beats ${choice}`;
-} else {
+} else if ((choice === computerSelection)){
+    results.textContent = `Tie! Go again`;
+} else  {
     humanScore++;
     hScore.textContent = humanScore;
     results.textContent = `You win! ${choice} beats ${computerSelection}`;
@@ -55,11 +58,11 @@ function getComputerChoice(){
     let choice;
     let rndNum = Math.floor(Math.random() * 3);
     if(rndNum === 0) {
-        choice = 'scissors';
+        choice = 'Scissors';
     }else if(rndNum === 1) {
-        choice = 'rock';
+        choice = 'Rock';
     }else {
-        choice = 'paper';
+        choice = 'Paper';
     }
     return choice;
 }
