@@ -11,7 +11,8 @@ let computerScore = 0;
 let choice;
 let hScore = document.querySelector('.hScore');
 let cScore = document.querySelector('.cScore');
-let results = document.querySelector('.results')
+let results = document.querySelector('.results');
+let winner = document.querySelector('.winner');
 
 
 const sGButton = document.getElementById("sGame");
@@ -25,6 +26,7 @@ function startGame() {
     hScore.textContent = humanScore;
     cScore.textContent = computerScore;
     results.textContent = '';
+    winner.textContent = '';
 }
 
 const pGame = document.querySelectorAll(".pGame");
@@ -40,18 +42,24 @@ pGame.forEach((item) => {
 function playRPS(choice) {
     let computerSelection = getComputerChoice();
     if ((choice === 'Scissors' && computerSelection === 'Rock')|| 
-    (choice === 'Rock' && computerSelection === 'Paper') ||
-    (choice === 'Paper' && computerSelection === 'Scissors')) {
-    computerScore++;
-    cScore.textContent = computerScore;
-    results.textContent = `You lose! ${computerSelection} beats ${choice}`;
-} else if ((choice === computerSelection)){
-    results.textContent = `Tie! Go again`;
-} else  {
-    humanScore++;
-    hScore.textContent = humanScore;
-    results.textContent = `You win! ${choice} beats ${computerSelection}`;
-}
+        (choice === 'Rock' && computerSelection === 'Paper') ||
+        (choice === 'Paper' && computerSelection === 'Scissors')) {
+        computerScore++;
+        cScore.textContent = computerScore;
+        results.textContent = `You lose! ${computerSelection} beats ${choice}`;
+    } else if ((choice === computerSelection)){
+        results.textContent = `Tie! Go again`;
+    } else  {
+        humanScore++;
+        hScore.textContent = humanScore;
+        results.textContent = `You win! ${choice} beats ${computerSelection}`;
+    }
+
+    if (humanScore === 5) {
+        winner.textContent - "You win!";
+    } else if (computerScore === 5){
+        winner.textContent = "Computer wins!"
+    }
 }
 
 function getComputerChoice(){
