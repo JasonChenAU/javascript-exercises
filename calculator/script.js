@@ -6,13 +6,13 @@ const allClear = document.getElementById("allClear");
 const decimal = document.getElementById("decimal");
 const back = document.getElementById("back");
 const history = document.getElementById("history");
+const zero = document.getElementById("zero");
 
 let numA;
 let numB;
 let operator;
 let result;
 let newNumB;
-
 let firstNum;
 let secondNum;
 
@@ -24,9 +24,10 @@ function init() {
     firstNum = true;
     secondNum = false;
     result = "";
-    resultScreen.textContent = "";
+    resultScreen.textContent = 0;
     history.textContent = "";
     decimal.disabled = false;
+    zero.disabled = false;
 }
 
 init();
@@ -44,10 +45,7 @@ function backSpace() {
 }
 
 function isEmpty() {
-    if ((numA || numB) === ''){
-        return true;
-    }
-    return false;
+    return ((numA && numB) === '' ?  true : false);
 }
 
 numbers.forEach((number) => {
@@ -55,12 +53,28 @@ numbers.forEach((number) => {
         let num = number.textContent;
 
         if (firstNum === true){
+            if (numA === '' && num === '.'){
+                numA += "0";
+            }
+            if (numA === "0") {
+                zero.disabled = true;
+            } else {
+                zero.disabled = false;
+            }
             numA += num;
             resultScreen.textContent = numA;
             if (numA.includes('.')) {
                 decimal.disabled = true;
             }
         } else if (secondNum === true) {
+            if (numB === '' && num === '.'){
+                numB += "0";
+            }
+            if (numB === "0") {
+                zero.disabled = true;
+            } else {
+                zero.disabled = false;
+            }
             numB += num;
             resultScreen.textContent = numB;
             if (numB.includes('.')) {
@@ -70,42 +84,28 @@ numbers.forEach((number) => {
     })
 });
 
-
 operators.forEach((op) => {
     op.addEventListener("click", () =>{
-        if (isEmpty()) {
-            return;
+
+        if ((numA && numB && operator) !== ''){
+            operate();
+            operator = "";
         }
         operator = op.textContent;
-
         history.textContent = `${numA} ${operator}`;
-
-        if ((numA && numB) !== ''){
-            operate();
-            history.textContent = `${numA} ${operator}`;
-            numA = result;
-            firstNum = false;
-            secondNum = true;
-            numB = "";
-        
-            
-        } else {
-            firstNum = false;
-            decimal.disabled = false;
-            secondNum = true;
-            numB = "";
-        }    
-
+        firstNum = false;
+        decimal.disabled = false;
+        secondNum = true;
+        numB = "";
     })
 })
-
 
 calculate.addEventListener("click", operate);
 
 function operate() {
-    if (isEmpty()){
-        return;
-    }
+    if (isEmpty()){ return; }
+    if ((operator && numB) ===  "") { return;}
+
     floatA = parseFloat(numA);
     floatB = parseFloat(numB);
     
@@ -120,20 +120,19 @@ function operate() {
             result = floatA * floatB;
             break;
         case "÷":
+            if (floatB === 0) {
+                resultScreen.textContent = "Error: Can't divide by 0";
+                return;
+            }
             result = floatA / floatB;   
             break;
         default:
-            display.textContent = "Error"
+            resultScreen.textContent = "Error";
             return;
     }
-    console.log(floatA, operator, floatB,'=', result)
-    resultScreen.textContent = parseFloat(result);
-    history.textContent = `${numA} ${operator} ${numB} =`;
 
-    numA = result;
+    resultScreen.textContent = parseFloat(result.toFixed(10));
+    history.textContent = `${numA} ${operator} ${numB} = `;
 
-    // firstNum = true;
-    // numA = result;
-    // newNumB = numB;
-    // secondNum = false;   
+    numA = result;  
 }
