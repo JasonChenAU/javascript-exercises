@@ -15,6 +15,7 @@ let result;
 let newNumB;
 let firstNum;
 let secondNum;
+let keyNum;
 
 allClear.addEventListener("click", init);
 
@@ -48,9 +49,14 @@ function isEmpty() {
     return ((numA && numB) === '' ?  true : false);
 }
 
+document.addEventListener("keydown", function(e) {
+    keyNum = e.key;
+    console.log(keyNum);
+})
+
 numbers.forEach((number) => {
     number.addEventListener("click", () => {
-        let num = number.textContent;
+        let num = keyNum || number.textContent;
 
         if (firstNum === true){
             if (numA === '' && num === '.'){

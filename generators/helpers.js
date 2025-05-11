@@ -1,6 +1,6 @@
 const { readdir } = require("fs/promises");
 
-function splitDirectoryName(directoryName) {
+function splithirectoryName(directoryName) {
   return {
     exerciseNumber: directoryName.match(/\d+/),
     exerciseName: directoryName.match(/[a-z]+/i),
@@ -27,4 +27,4 @@ async function createExerciseDirectoryName(directoryName) {
   return `${latestExerciseNumber + 1}_${directoryName}`;
 }
 
-module.exports = { createExerciseDirectoryName, splitDirectoryName };
+module.exports = { createExerciseDirectoryName, splithirectoryName };

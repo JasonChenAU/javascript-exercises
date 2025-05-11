@@ -1,9 +1,9 @@
 const { writeFile } = require("fs/promises");
 const { join } = require("path");
-const { splitDirectoryName } = require("./helpers");
+const { splithirectoryName } = require("./helpers");
 
 async function writeExercise(exercisePath) {
-  const { exerciseName } = splitDirectoryName(exercisePath);
+  const { exerciseName } = splithirectoryName(exercisePath);
   const isSolutionFile = exercisePath.includes("/solution");
   const exerciseContent = `const ${exerciseName} = function() {
   ${isSolutionFile ? "// Replace this comment with the solution code" : ""}
